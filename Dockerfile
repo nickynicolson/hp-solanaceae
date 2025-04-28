@@ -25,6 +25,10 @@ RUN apk --no-cache add curl && \
 WORKDIR /site
 COPY . .
 
+# Disable problematic entrypoint scripts
+RUN rm -rf /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh \
+           /docker-entrypoint.d/20-envsubst-on-templates.sh
+
 # Create the site directory and set permissions
 RUN mkdir -p /site && chown -R jekyll:jekyll /site
 
