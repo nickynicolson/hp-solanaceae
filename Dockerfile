@@ -36,7 +36,7 @@ WORKDIR /site
 COPY --chown=jekyll:jekyll . .
 
 # Install dependencies (if using Bundler)
-RUN bundle install
+# RUN bundle install
 
 RUN jekyll build
 
