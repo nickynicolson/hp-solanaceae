@@ -61,5 +61,6 @@ COPY ./nginx-custom.conf /etc/nginx/nginx.conf
 
 # Copy Jekyll output
 COPY --from=0 /site/_site /usr/share/nginx/html
+# Use 8080 as per nginx-conf
 EXPOSE 8080
 
