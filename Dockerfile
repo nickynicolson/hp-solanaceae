@@ -42,7 +42,14 @@ RUN jekyll build
 
 # Use a lightweight web server to serve the static files
 FROM nginx:alpine
-COPY --from=0 /site/_site /usr/share/nginx/html
 
-# Expose port 80 (required for Hugging Face Spaces)
+# Delete the default config (which includes the problematic 'user' directive)
+RUN rm /etc/nginx/nginx.conf
+
+# Replace with a custom minimal config
+COPY nginx-custom.conf /etc/nginx/nginx.conf
+
+# Copy Jekyll output
+COPY --from=0 /site/_site /usr/share/nginx/html
 EXPOSE 80
+
