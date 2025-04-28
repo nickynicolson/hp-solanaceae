@@ -47,7 +47,8 @@ FROM nginx:alpine
 RUN rm /etc/nginx/nginx.conf
 
 # Replace with a custom minimal config
-COPY nginx-custom.conf /etc/nginx/nginx.conf
+WORKDIR /site
+COPY ./nginx-custom.conf /etc/nginx/nginx.conf
 
 # Copy Jekyll output
 COPY --from=0 /site/_site /usr/share/nginx/html
