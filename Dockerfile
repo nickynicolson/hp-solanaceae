@@ -43,8 +43,12 @@ RUN jekyll build
 # Use a lightweight web server to serve the static files
 FROM nginx:alpine
 
-# Create necessary directories with correct permissions
+# Create all required Nginx directories with correct permissions
 RUN mkdir -p /var/cache/nginx/client_temp \
+    && mkdir -p /var/cache/nginx/proxy_temp \
+    && mkdir -p /var/cache/nginx/fastcgi_temp \
+    && mkdir -p /var/cache/nginx/uwsgi_temp \
+    && mkdir -p /var/cache/nginx/scgi_temp \
     && chown -R nginx:nginx /var/cache/nginx \
     && chmod -R 755 /var/cache/nginx
     
