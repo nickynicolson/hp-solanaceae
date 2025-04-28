@@ -64,4 +64,7 @@ RUN chown nginx:nginx /etc/nginx/nginx.conf  # Set proper ownership
 COPY --from=0 /site/_site /usr/share/nginx/html
 # Use 8080 as per nginx-conf
 EXPOSE 8080
+# Run as root (required for port 80)
+USER root
+CMD ["nginx", "-g", "daemon off;"]
 
