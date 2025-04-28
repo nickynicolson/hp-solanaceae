@@ -1,5 +1,5 @@
 # GBIF dockerfile
-FROM jekyll/jekyll:4.2.2
+FROM jekyll/jekyll:4.1.0
 
 # GBIF dockerfile
 RUN gem sources --add https://repository.gbif.org/repository/rubygems.org/ && \
