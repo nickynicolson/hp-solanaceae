@@ -43,6 +43,11 @@ RUN jekyll build
 # Use a lightweight web server to serve the static files
 FROM nginx:alpine
 
+# Create necessary directories with correct permissions
+RUN mkdir -p /var/cache/nginx/client_temp \
+    && chown -R nginx:nginx /var/cache/nginx \
+    && chmod -R 755 /var/cache/nginx
+    
 # Delete the default config (which includes the problematic 'user' directive)
 RUN rm /etc/nginx/nginx.conf
 
