@@ -45,26 +45,38 @@ COPY --chown=jekyll:jekyll . .
 RUN jekyll build
 
 # Use a lightweight web server to serve the static files
-FROM nginx:alpine
+FROM alpine:3.16
+RUN apk add --no-cache nginx
+COPY --from=builder /site/_site /var/www/html
 
-# Create all required Nginx directories with correct permissions
-RUN mkdir -p /var/cache/nginx/client_temp \
-    && mkdir -p /var/cache/nginx/proxy_temp \
-    && mkdir -p /var/cache/nginx/fastcgi_temp \
-    && mkdir -p /var/cache/nginx/uwsgi_temp \
-    && mkdir -p /var/cache/nginx/scgi_temp \
-    && chown -R nginx:nginx /var/cache/nginx \
-    && chmod -R 755 /var/cache/nginx
+# Minimal static config
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
+    echo "events { worker_connections 1024; }" >> /etc/nginx/nginx.conf && \
+    echo "http { server { listen 80; root /var/www/html; } }" >> /etc/nginx/nginx.conf
+
+EXPOSE 80
+CMD ["nginx"]
+
+# FROM nginx:alpine
+
+# # Create all required Nginx directories with correct permissions
+# RUN mkdir -p /var/cache/nginx/client_temp \
+#     && mkdir -p /var/cache/nginx/proxy_temp \
+#     && mkdir -p /var/cache/nginx/fastcgi_temp \
+#     && mkdir -p /var/cache/nginx/uwsgi_temp \
+#     && mkdir -p /var/cache/nginx/scgi_temp \
+#     && chown -R nginx:nginx /var/cache/nginx \
+#     && chmod -R 755 /var/cache/nginx
     
-# Replace default config rather than deleting it
-COPY nginx-custom.conf /etc/nginx/nginx.conf
-RUN chown nginx:nginx /etc/nginx/nginx.conf  # Set proper ownership
+# # Replace default config rather than deleting it
+# COPY nginx-custom.conf /etc/nginx/nginx.conf
+# RUN chown nginx:nginx /etc/nginx/nginx.conf  # Set proper ownership
 
-# Copy Jekyll output
-COPY --from=0 /site/_site /usr/share/nginx/html
-# Use 8080 as per nginx-conf
-EXPOSE 8080
-# Run as root (required for port 80)
-USER root
-CMD ["nginx", "-g", "daemon off;"]
+# # Copy Jekyll output
+# COPY --from=0 /site/_site /usr/share/nginx/html
+# # Use 8080 as per nginx-conf
+# EXPOSE 8080
+# # Run as root (required for port 80)
+# USER root
+# CMD ["nginx", "-g", "daemon off;"]
 
