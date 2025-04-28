@@ -45,7 +45,7 @@ COPY --chown=jekyll:jekyll . .
 RUN jekyll build
 
 # Use a lightweight web server to serve the static files
-FROM alpine
+FROM nginx:alpine
 RUN apk add --no-cache nginx
 COPY --from=builder /site/_site /var/www/html
 
