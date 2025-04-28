@@ -61,5 +61,5 @@ COPY ./nginx-custom.conf /etc/nginx/nginx.conf
 
 # Copy Jekyll output
 COPY --from=0 /site/_site /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 8080
 
