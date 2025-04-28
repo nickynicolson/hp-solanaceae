@@ -53,7 +53,7 @@ RUN mkdir -p /var/cache/nginx/client_temp \
     && chmod -R 755 /var/cache/nginx
     
 # Replace default config rather than deleting it
-COPY custom-nginx.conf /etc/nginx/nginx.conf
+COPY nginx-custom.conf /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/nginx.conf  # Set proper ownership
 
 # Copy Jekyll output
