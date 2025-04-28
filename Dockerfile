@@ -13,8 +13,8 @@ RUN gem sources --add https://repository.gbif.org/repository/rubygems.org/ && \
     su-exec jekyll /usr/local/bin/bundle config set mirror.https://rubygems.org https://repository.gbif.org/repository/rubygems.org
 
 # GBIF dockerfile
-RUN mv /bin/chown /chown
-COPY ["do-nothing", "/bin/chown"]
+# RUN mv /bin/chown /chown
+# COPY ["do-nothing", "/bin/chown"]
 
 # GBIF dockerfile
 ENV JEKYLL_UID=0 \
