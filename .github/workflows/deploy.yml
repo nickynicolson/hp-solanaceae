@@ -1,0 +1,17 @@
+name: Deploy to Hugging Face
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push to Hugging Face
+        run: |
+          git clone https://nickynicolson:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/nickynicolson/hp-solanaceae
+          cd hp-solanaceae
+          cp -r ../* . || true  # Copy all files (Static or Docker)
+          git add .
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -m "Update from GitHub" || true
+          git push
